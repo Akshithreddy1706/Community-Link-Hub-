@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Link Hub - Connecting People, Building Community</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="animated-background">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            <div class="shape shape-4"></div>
+            <div class="shape shape-5"></div>
+        </div>
+        <div class="gradient-overlay"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-handshake"></i>
+                <span>Sada Shiva Community link Hub</span>
+            </div>
+            <div class="nav-links">
+                <div class="search-container">
+                    <input type="text" id="navSearchInput" placeholder="Search services..." class="search-input" autocomplete="off">
+                    <button type="button" onclick="communityHub.searchServices()" class="search-btn">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <a href="#about" class="nav-link">About</a>
+                <button class="admin-btn" onclick="communityHub.showAdminLogin()">
+                    <i class="fas fa-user-cog"></i>
+                    Admin
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Connecting Community, Building Hope</h1>
+            <p class="hero-subtitle">Discover local programs and services that make a difference in your neighborhood</p>
+
+            <div class="hero-buttons">
+                <button class="btn btn-primary" onclick="communityHub.scrollToServices()">
+                    <i class="fas fa-search"></i>
+                    Explore Services
+                </button>
+                <button class="btn btn-secondary" onclick="communityHub.showAddServiceModal()">
+                    <i class="fas fa-plus"></i>
+                    Add Service
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Image Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <div class="gallery-frame">
+                <div class="carousel-container">
+                    <div class="carousel-wrapper">
+                        <div class="carousel-slide active">
+                            <img src="https://www.homznspace.com/wp-content/uploads/2019/06/Incor-Pbel-City-Main-B-e1650354879987.jpg" alt="Community volunteers helping neighborhood cleanup" loading="lazy">
+                            
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://www.assureshift.in/sites/default/files/images/content-images/purva-venezia_0.jpg" alt="Volunteers distributing food assistance" loading="lazy">
+                            
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://cbvalueaddrealty.in/wp-content/uploads/2021/11/benefits-of-buying-a-home-in-gated-community.jpg" alt="Educational programs for children" loading="lazy">
+                            
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://aurorealty.com/blog/wp-content/uploads/2024/06/17.jpg" alt="Healthcare services outreach" loading="lazy">
+                            
+                        </div>
+                        <div class="carousel-slide">
+                            <img src="https://www.smrholdings.in/images/blog-images/what-makes-gated-community-apartments-in-bandlaguda-ideal.jpg" alt="Senior care and companionship" loading="lazy">
+                            
+                        </div>
+                    </div>
+                    <div class="carousel-indicators">
+                        <span class="indicator active" data-slide="0"></span>
+                        <span class="indicator" data-slide="1"></span>
+                        <span class="indicator" data-slide="2"></span>
+                        <span class="indicator" data-slide="3"></span>
+                        <span class="indicator" data-slide="4"></span>
+                    </div>
+                    <!-- Navigation buttons -->
+                    <button class="carousel-prev" aria-label="Previous slide">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="carousel-next" aria-label="Next slide">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Community Services</h2>
+                <p class="section-subtitle">Discover programs and services available in your area</p>
+            </div>
+
+            <div id="services-grid" class="services-grid">
+                <!-- Service cards will be loaded here -->
+            </div>
+
+            <div id="loading" class="loading">
+                <div class="spinner"></div>
+                <p>Loading services...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Details Modal -->
+    <div id="serviceModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="communityHub.closeServiceModal()">&times;</span>
+            <div id="modalContent" class="modal-body">
+                <!-- Service details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Service Modal -->
+    <div id="addServiceModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="communityHub.closeAddServiceModal()">&times;</span>
+            <div class="modal-body">
+                <h2 class="modal-title">Add New Community Service</h2>
+                <form id="addServiceForm" class="add-service-form" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Your Name *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="serviceName">Service Name *</label>
+                            <input type="text" id="serviceName" name="serviceName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Description *</label>
+                        <textarea id="description" name="description" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="location">Location *</label>
+                            <input type="text" id="location" name="location" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="organizer">Organizer *</label>
+                            <input type="text" id="organizer" name="organizer" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="timing">Timing *</label>
+                            <input type="text" id="timing" name="timing" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Category</label>
+                            <select id="category" name="category">
+                                <option value="food">🥗 Food Bank</option>
+                                <option value="health">🏥 Health</option>
+                                <option value="education">📚 Education</option>
+                                <option value="environment">🌿 Environment</option>
+                                <option value="senior">👴 Senior Care</option>
+                                <option value="literacy">✍️ Literacy</option>
+                                <option value="youth">👦 Youth Empowerment</option>
+<option value="women">👩‍🦰 Women’s Support Group</option>
+<option value="mentalhealth">🧠 Mental Health & Wellness</option>
+<option value="sports">⚽ Community Sports & Fitness</option>
+<option value="arts">🎨 Art & Cultural Events</option>
+<option value="animalcare">🐾 Animal Care & Rescue</option>
+<option value="tech">💻 Tech & Digital Literacy</option>
+<option value="disaster">🚑 Emergency & Disaster Relief</option>
+<option value="housing">🏘️ Affordable Housing Support</option>
+<option value="legal">⚖️ Legal Aid & Awareness</option>
+<option value="volunteer">🤝 Volunteering Opportunities</option>
+<option value="recycling">♻️ Recycling & Sustainability Drives</option>
+<option value="blooddonation">🩸 Blood Donation Camps</option>
+<option value="childcare">🧒 Childcare & Parenting Support</option>
+<option value="communityevents">🎉 Local Community Events</option>
+<option value="transport">🚌 Community Transport Assistance</option>
+<option value="library">📖 Public Library & Reading Clubs</option>
+<option value="healthawareness">💉 Health Awareness Campaigns</option>
+<option value="career">💼 Career & Job Guidance</option>
+<option value="skilltraining">🛠️ Skill Training & Workshops</option>
+<option value="gardening">🌸 Urban Gardening Projects</option>
+<option value="fundraising">💰 Charity & Fundraising Events</option>
+<option value="recreation">🎭 Recreation & Hobby Clubs</option>
+<option value="disability">♿ Disability Support Services</option>
+<option value="wastemanagement">🚮 Waste Management Initiatives</option>
+<option value="climateaction">🌎 Climate Action & Awareness</option>
+<option value="cultural">🕊️ Cultural Heritage & Preservation</option>
+<option value="music">🎵 Music & Performing Arts</option>
+<option value="elderly">🩺 Health Checkup Camps for Elderly</option>
+<option value="language">🗣️ Language Learning Groups</option>
+<option value="bloodpressure">💊 High/Low BP Awareness Program</option>
+<option value="sugarcare">🍯 Diabetes Care Camp</option>
+<option value="vaccination">💉 Vaccination Drive</option>
+<option value="reforestation">🌳 Tree Plantation Drives</option>
+<option value="coaching">📖 Student Coaching & Mentoring</option>
+<option value="emergencyservices">🚨 Emergency Community Services</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Service Image</label>
+                        <div class="image-options">
+                            <div class="image-option">
+                                <input type="radio" id="imageUpload" name="imageType" value="upload" checked>
+                                <label for="imageUpload">Upload File</label>
+                                <input type="file" id="image" name="imageFile" accept="image/*" style="display: block; margin-top: 0.5rem;">
+                            </div>
+                            <div class="image-option">
+                                <input type="radio" id="imageUrl" name="imageType" value="url">
+                                <label for="imageUrl">Image URL</label>
+                                <input type="url" id="imageUrl" name="imageUrl" placeholder="https://example.com/image.jpg" style="display: block; margin-top: 0.5rem;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="communityHub.closeAddServiceModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Service</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Service Modal -->
+    <div id="editServiceModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="communityHub.closeEditServiceModal()">&times;</span>
+            <div class="modal-body">
+                <h2 class="modal-title">Edit Community Service</h2>
+                <form id="editServiceForm" class="edit-service-form" enctype="multipart/form-data">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editName">Your Name *</label>
+                            <input type="text" id="editName" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editEmail">Email *</label>
+                            <input type="email" id="editEmail" name="email" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editPhone">Phone</label>
+                            <input type="tel" id="editPhone" name="phone">
+                        </div>
+                        <div class="form-group">
+                            <label for="editServiceName">Service Name *</label>
+                            <input type="text" id="editServiceName" name="serviceName" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editDescription">Description *</label>
+                        <textarea id="editDescription" name="description" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editLocation">Location *</label>
+                            <input type="text" id="editLocation" name="location" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editOrganizer">Organizer *</label>
+                            <input type="text" id="editOrganizer" name="organizer" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editTiming">Timing *</label>
+                            <input type="text" id="editTiming" name="timing" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editCategory">Category</label>
+                            <select id="editCategory" name="category">
+                                <option value="food">🥗 Food Bank</option>
+                                <option value="health">🏥 Health</option>
+                                <option value="education">📚 Education</option>
+                                <option value="environment">🌿 Environment</option>
+                                <option value="senior">👴 Senior Care</option>
+                                <option value="literacy">✍️ Literacy</option>
+                                <option value="youth">👦 Youth Empowerment</option>
+<option value="women">👩‍🦰 Women’s Support Group</option>
+<option value="mentalhealth">🧠 Mental Health & Wellness</option>
+<option value="sports">⚽ Community Sports & Fitness</option>
+<option value="arts">🎨 Art & Cultural Events</option>
+<option value="animalcare">🐾 Animal Care & Rescue</option>
+<option value="tech">💻 Tech & Digital Literacy</option>
+<option value="disaster">🚑 Emergency & Disaster Relief</option>
+<option value="housing">🏘️ Affordable Housing Support</option>
+<option value="legal">⚖️ Legal Aid & Awareness</option>
+<option value="volunteer">🤝 Volunteering Opportunities</option>
+<option value="recycling">♻️ Recycling & Sustainability Drives</option>
+<option value="blooddonation">🩸 Blood Donation Camps</option>
+<option value="childcare">🧒 Childcare & Parenting Support</option>
+<option value="communityevents">🎉 Local Community Events</option>
+<option value="transport">🚌 Community Transport Assistance</option>
+<option value="library">📖 Public Library & Reading Clubs</option>
+<option value="healthawareness">💉 Health Awareness Campaigns</option>
+<option value="career">💼 Career & Job Guidance</option>
+<option value="skilltraining">🛠️ Skill Training & Workshops</option>
+<option value="gardening">🌸 Urban Gardening Projects</option>
+<option value="fundraising">💰 Charity & Fundraising Events</option>
+<option value="recreation">🎭 Recreation & Hobby Clubs</option>
+<option value="disability">♿ Disability Support Services</option>
+<option value="wastemanagement">🚮 Waste Management Initiatives</option>
+<option value="climateaction">🌎 Climate Action & Awareness</option>
+<option value="cultural">🕊️ Cultural Heritage & Preservation</option>
+<option value="music">🎵 Music & Performing Arts</option>
+<option value="elderly">🩺 Health Checkup Camps for Elderly</option>
+<option value="language">🗣️ Language Learning Groups</option>
+<option value="bloodpressure">💊 High/Low BP Awareness Program</option>
+<option value="sugarcare">🍯 Diabetes Care Camp</option>
+<option value="vaccination">💉 Vaccination Drive</option>
+<option value="reforestation">🌳 Tree Plantation Drives</option>
+<option value="coaching">📖 Student Coaching & Mentoring</option>
+<option value="emergencyservices">🚨 Emergency Community Services</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Service Image</label>
+                        <div class="image-options">
+                            <div class="image-option">
+                                <input type="radio" id="editImageUpload" name="editImageType" value="upload" checked>
+                                <label for="editImageUpload">Upload File</label>
+                                <input type="file" id="editImage" name="image" accept="image/*" style="display: block; margin-top: 0.5rem;">
+                            </div>
+                            <div class="image-option">
+                                <input type="radio" id="editImageUrl" name="editImageType" value="url">
+                                <label for="editImageUrl">Image URL</label>
+                                <input type="url" id="editImageUrl" name="imageUrl" placeholder="https://example.com/image.jpg" style="display: none; margin-top: 0.5rem;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="communityHub.closeEditServiceModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Update Service</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="communityHub.closeAdminModal()">&times;</span>
+            <div class="modal-body">
+                <h2 class="modal-title">Admin Login</h2>
+                <form id="adminLoginForm" class="admin-login-form">
+                    <div class="form-group">
+                        <label for="adminEmail">Email *</label>
+                        <input type="email" id="adminEmail" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password *</label>
+                        <input type="password" id="adminPassword" name="password" required>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="communityHub.closeAdminModal()">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Panel (initially hidden) -->
+    <div id="adminPanel" class="admin-panel" style="display: none;">
+        <div class="admin-header">
+            <h2>Admin Panel</h2>
+            <button class="btn btn-secondary" onclick="communityHub.logoutAdmin()">Logout</button>
+        </div>
+        <div class="admin-content">
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <h3 id="totalServices">0</h3>
+                    <p>Total Services</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="totalReviews">0</h3>
+                    <p>Total Reviews</p>
+                </div>
+            </div>
+            <div class="services-table-container">
+                <h3>Manage Services</h3>
+                <div id="adminServicesTable" class="admin-services-table">
+                    <!-- Services table will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Add Button -->
+    <button class="floating-add-btn" onclick="communityHub.showAddServiceModal()" title="Add New Service">
+        <i class="fas fa-plus"></i>
+    </button>
+
+
+    <script src="javascripts/script.js"></script>
+</body>
+</html>
